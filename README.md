@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Convertidor AFND a AFD
 
 Implementación en Python para convertir Autómatas Finitos No Determinísticos (AFND) en Autómatas Finitos Determinísticos (AFD).
@@ -65,3 +66,7 @@ Transiciones:
 
 - ⬜ **Gris**: Estados normales y nodo inicio
 - 🟢 **Verde**: Estados de aceptación
+=======
+# transitionDiagram
+Código que te permite crear por medio de unos parámetros de entrada la validación y generación en imagen de un diagrama de transición
+>>>>>>> develop
