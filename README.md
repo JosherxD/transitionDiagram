@@ -1,72 +1,83 @@
-<<<<<<< HEAD
 # Convertidor AFND a AFD
 
-Implementación en Python para convertir Autómatas Finitos No Determinísticos (AFND) en Autómatas Finitos Determinísticos (AFD).
+Implementación en Python para convertir Autómatas Finitos No Determinísticos (AFND) en Autómatas Finitos Determinísticos (AFD) con interfaz gráfica.
 
-## Características
+## 🚀 Instalación
 
-- ✅ Validación de autómatas no determinísticos
-- 🔄 Conversión usando algoritmo de construcción de subconjuntos
-- 📊 Visualización gráfica de diagramas de burbuja
-- 🎯 Soporte para transiciones épsilon (ε)
-- 💻 Interfaz de consola interactiva
+### Opción 1: Instalación automática (Windows)
+```bash
+install_dependencies.bat
+```
 
-## Instalación
-
+### Opción 2: Instalación manual
 ```bash
 pip install -r requirements.txt
 ```
 
-## Uso
+## 📋 Dependencias
 
-### Modo Interactivo
+- **matplotlib**: Visualización de diagramas
+- **networkx**: Grafos y algoritmos de red
+- **numpy**: Operaciones matemáticas
+- **tkinter**: Interfaz gráfica (incluido en Python)
+
+## 🎯 Uso
+
 ```bash
 python main.py
 ```
 
-### Ejemplo Predefinido
-```bash
-python ejemplo_uso.py
+## 📝 Formato de entrada
+
+### Parte 1: Datos básicos
+- **Estados**: Letras mayúsculas separadas por comas (`A,B,C,D`)
+- **Símbolos**: Exactamente 2 números separados por coma (`0,1` o `1000,2000`)
+- **Estado inicial**: Una sola letra (`A`)
+- **Estados finales**: Letras separadas por comas (`B,C`)
+
+### Parte 2: Transiciones
+- **Formato**: `origen,simbolo,destino`
+- **Múltiples destinos**: `A,0,B;C`
+- **Una transición por línea**
+
+## ✨ Características
+
+- ✅ **Validación en tiempo real** de entrada
+- ✅ **Conversión automática** a mayúsculas
+- ✅ **Interfaz progresiva** en 2 partes
+- ✅ **Detección de no determinismo**
+- ✅ **Visualización gráfica** de diagramas
+- ✅ **Algoritmo de construcción** de subconjuntos
+
+## 🏗️ Arquitectura
+
+```
+automata/
+├── main.py                    # Punto de entrada
+├── src/
+│   ├── models/               # Lógica de negocio
+│   │   ├── automata.py      # Clases AFND y AFD
+│   │   └── validator.py     # Validaciones
+│   ├── views/               # Interfaz gráfica
+│   │   ├── main_window.py   # Ventana principal
+│   │   └── diagram_viewer.py # Visualizador
+│   └── controllers/         # Controladores
+│       └── automata_controller.py
+├── requirements.txt          # Dependencias
+└── README.md                # Documentación
 ```
 
-## Formato de Entrada
+## 🔄 Flujo de trabajo
 
-### Estados
-Letras A-Z separadas por comas: `A,B,C`
+1. **Llenar datos básicos** (Estados, símbolos, etc.)
+2. **Validar datos básicos** ✓
+3. **Ingresar transiciones** (se habilita automáticamente)
+4. **Validar AFND** ✓
+5. **Convertir a AFD** ✓
+6. **Visualizar diagramas** 📊
 
-### Símbolos de entrada
-Sólo 0 y 1: `0,1,ε`
+## 🎨 Colores del diagrama
 
-### Transiciones
-Formato: `estado_origen,simbolo,estado_destino`
-Múltiples destinos: `A,0,B;C`
-
-## Ejemplo de AFND
-
-```
-Estados: A,B,C
-Símbolos: 0,1
-Estado inicial: A
-Estados de aceptación: C
-Transiciones:
-- A,0,A
-- A,1,A
-- A,0,B
-- B,1,C
-```
-
-## Algoritmo
-
-1. **Validación**: Detecta transiciones múltiples
-2. **Epsilon-clausura**: Calcula estados alcanzables por ε
-3. **Construcción de subconjuntos**: Genera estados del AFD
-4. **Visualización**: Dibuja diagramas con NetworkX
-
-## Colores del Diagrama
-
-- ⬜ **Gris**: Estados normales y nodo inicio
-- 🟢 **Verde**: Estados de aceptación
-=======
-# transitionDiagram
-Código que te permite crear por medio de unos parámetros de entrada la validación y generación en imagen de un diagrama de transición
->>>>>>> develop
+- **Gris**: Estados normales y nodo inicio
+- **Verde**: Estados de aceptación
+- **Flechas grises**: Transiciones
