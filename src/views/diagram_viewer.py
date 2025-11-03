@@ -78,16 +78,16 @@ class DiagramViewer:
             for i, simbolo in enumerate(simbolos):
                 DiagramUtils.draw_self_loop(ax, pos, estado, simbolo, i)
         
-        # Dibujar transiciones entre estados diferentes
+        # Dibujar cada transición como línea independiente
         for (origen, destino), simbolos in transitions_by_pair.items():
             num_simbolos = len(simbolos)
             
             for i, simbolo in enumerate(simbolos):
-                # Calcular altura de curva basada en el índice
+                # SIEMPRE usar curvas separadas para cada transición
                 if num_simbolos == 1:
-                    curve_height = 0.2
+                    curve_height = 0.15  # Curva ligera para transición única
                 else:
-                    curve_height = 0.1 + (i - num_simbolos/2 + 0.5) * 0.3
+                    curve_height = (i - num_simbolos/2 + 0.5) * 0.3  # Curvas separadas
                 
                 DiagramUtils.draw_curved_transition(
                     ax, pos[origen], pos[destino], simbolo, curve_height

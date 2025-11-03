@@ -88,8 +88,9 @@ class DiagramUtils:
         ax.annotate('', xy=(end_x, end_y), xytext=(arrow_x, arrow_y),
                    arrowprops=dict(arrowstyle='->', color='gray', lw=1.5))
         
-        # Etiqueta en el punto más alto de la curva
-        label_x = control_x
-        label_y = control_y + 0.1
-        ax.text(label_x, label_y, label, fontsize=10, ha='center', va='center',
+        # Etiqueta cerca de la curva
+        label_t = 0.6  # Posición en la curva para la etiqueta
+        label_x = (1-label_t)**2 * x1 + 2*(1-label_t)*label_t * control_x + label_t**2 * x2
+        label_y = (1-label_t)**2 * y1 + 2*(1-label_t)*label_t * control_y + label_t**2 * y2
+        ax.text(label_x, label_y + 0.05, label, fontsize=10, ha='center', va='center',
                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.9))
