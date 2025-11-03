@@ -54,49 +54,44 @@ class DiagramViewer:
     
     @staticmethod
     def _draw_custom_edges(automata, pos, ax):
-        """Dibuja aristas personalizadas para evitar solapamiento"""
-        # Contar aristas entre cada par de nodos
-        edge_counts = DiagramUtils.count_edges_between_nodes(automata.transiciones)
-        edge_indices = {}
+        """Dibuja transiciones con estética mejorada"""
+        # Agrupar transiciones
+        transitions_by_pair = {}
+        self_loops = {}
         
         for (origen, simbolo), destinos in automata.transiciones.items():
             for destino in destinos:
-                key = (origen, destino)
-                if key not in edge_indices:
-                    edge_indices[key] = 0
-                
-                edge_count = edge_counts[key]
-                edge_index = edge_indices[key]
-                
-                if edge_count > 1:
-                    # Usar arista curvada para múltiples conexiones
-                    control_point = DiagramUtils.calculate_curved_edge_positions(
-                        pos, origen, destino, edge_count, edge_index
-                    )
-                    if control_point:
-                        DiagramUtils.draw_curved_arrow(
-                            ax, pos[origen], pos[destino], control_point, simbolo
-                        )
-                    else:
-                        # Fallback a línea recta
-                        ax.annotate('', xy=pos[destino], xytext=pos[origen],
-                                   arrowprops=dict(arrowstyle='->', color='gray'))
-                        # Agregar etiqueta más arriba
-                        mid_x = (pos[origen][0] + pos[destino][0]) / 2
-                        mid_y = (pos[origen][1] + pos[destino][1]) / 2 + 0.15
-                        ax.text(mid_x, mid_y, simbolo, fontsize=11, ha='center', va='center',
-                               bbox=dict(boxstyle='round,pad=0.3', facecolor='lightblue', alpha=0.9, edgecolor='navy'))
+                if origen == destino:
+                    # Self-loop
+                    if origen not in self_loops:
+                        self_loops[origen] = []
+                    self_loops[origen].append(simbolo)
                 else:
-                    # Usar línea recta para conexión única
-                    ax.annotate('', xy=pos[destino], xytext=pos[origen],
-                               arrowprops=dict(arrowstyle='->', color='gray', lw=1.5))
-                    # Agregar etiqueta más arriba
-                    mid_x = (pos[origen][0] + pos[destino][0]) / 2
-                    mid_y = (pos[origen][1] + pos[destino][1]) / 2 + 0.15
-                    ax.text(mid_x, mid_y, simbolo, fontsize=11, ha='center', va='center',
-                           bbox=dict(boxstyle='round,pad=0.3', facecolor='lightblue', alpha=0.9, edgecolor='navy'))
+                    # Transición normal
+                    key = (origen, destino)
+                    if key not in transitions_by_pair:
+                        transitions_by_pair[key] = []
+                    transitions_by_pair[key].append(simbolo)
+        
+        # Dibujar self-loops
+        for estado, simbolos in self_loops.items():
+            for i, simbolo in enumerate(simbolos):
+                DiagramUtils.draw_self_loop(ax, pos, estado, simbolo, i)
+        
+        # Dibujar transiciones entre estados diferentes
+        for (origen, destino), simbolos in transitions_by_pair.items():
+            num_simbolos = len(simbolos)
+            
+            for i, simbolo in enumerate(simbolos):
+                # Calcular altura de curva basada en el índice
+                if num_simbolos == 1:
+                    curve_height = 0.2
+                else:
+                    curve_height = 0.1 + (i - num_simbolos/2 + 0.5) * 0.3
                 
-                edge_indices[key] += 1
+                DiagramUtils.draw_curved_transition(
+                    ax, pos[origen], pos[destino], simbolo, curve_height
+                )
     
     @staticmethod
     def dibujar_diagrama_afd(afd, titulo):
