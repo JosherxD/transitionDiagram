@@ -24,12 +24,19 @@ class DiagramViewer:
         nx.draw_networkx_nodes(G, pos, nodelist=['inicio'], 
                               node_color='lightgray', node_size=600, node_shape='s')
         
-        estados_normales = automata.estados - automata.estados_finales
-        nx.draw_networkx_nodes(G, pos, nodelist=estados_normales, 
+        # Dibujar todos los estados con el mismo color
+        nx.draw_networkx_nodes(G, pos, nodelist=automata.estados, 
                               node_color='lightgray', node_size=800)
         
-        nx.draw_networkx_nodes(G, pos, nodelist=automata.estados_finales, 
-                              node_color='lightgreen', node_size=800)
+        # Dibujar doble círculo para estados de aceptación
+        ax = plt.gca()
+        for estado in automata.estados_finales:
+            if estado in pos:
+                x, y = pos[estado]
+                # Círculo exterior
+                circle_outer = plt.Circle((x, y), 0.06, fill=False, color='black', linewidth=2)
+                ax.add_patch(circle_outer)
+                # Círculo interior ya está dibujado por networkx
         
         # NO dibujar aristas automáticamente para evitar conflictos
         # nx.draw_networkx_edges(G, pos, edge_color='gray', arrows=True, arrowsize=20)
@@ -120,12 +127,19 @@ class DiagramViewer:
         nx.draw_networkx_nodes(G, pos, nodelist=['inicio'], 
                               node_color='lightgray', node_size=600, node_shape='s')
         
-        estados_normales = afd.estados - afd.estados_finales
-        nx.draw_networkx_nodes(G, pos, nodelist=estados_normales, 
+        # Dibujar todos los estados con el mismo color
+        nx.draw_networkx_nodes(G, pos, nodelist=afd.estados, 
                               node_color='lightgray', node_size=1200)
         
-        nx.draw_networkx_nodes(G, pos, nodelist=afd.estados_finales, 
-                              node_color='lightgreen', node_size=1200)
+        # Dibujar doble círculo para estados de aceptación
+        ax = plt.gca()
+        for estado in afd.estados_finales:
+            if estado in pos:
+                x, y = pos[estado]
+                # Círculo exterior
+                circle_outer = plt.Circle((x, y), 0.08, fill=False, color='black', linewidth=2)
+                ax.add_patch(circle_outer)
+                # Círculo interior ya está dibujado por networkx
         
         nx.draw_networkx_edges(G, pos, edge_color='gray', arrows=True, arrowsize=20, width=1.5)
         
