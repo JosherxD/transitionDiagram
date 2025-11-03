@@ -6,31 +6,42 @@ import numpy as np
 class DiagramUtils:
     @staticmethod
     def draw_self_loop(ax, pos, state, label, angle_offset=0):
-        """Dibuja un bucle (self-loop) en un estado"""
+        """Dibuja un bucle que sale y regresa al mismo estado"""
         x, y = pos[state]
-        radius = 0.3
-        angle = angle_offset * 60  # Separar bucles por 60 grados
+        angle = 90 + angle_offset * 45  # Ángulo base hacia arriba
         
-        # Calcular posición del bucle
-        loop_x = x + 0.4 * np.cos(np.radians(angle))
-        loop_y = y + 0.4 * np.sin(np.radians(angle))
+        # Puntos de salida y llegada en el borde del círculo del estado
+        node_radius = 0.15  # Radio del nodo del estado
+        start_angle = angle - 20
+        end_angle = angle + 20
         
-        # Crear círculo para el bucle
-        circle = patches.Circle((loop_x, loop_y), radius, fill=False, 
-                               edgecolor='gray', linewidth=1.5)
-        ax.add_patch(circle)
+        start_x = x + node_radius * np.cos(np.radians(start_angle))
+        start_y = y + node_radius * np.sin(np.radians(start_angle))
+        end_x = x + node_radius * np.cos(np.radians(end_angle))
+        end_y = y + node_radius * np.sin(np.radians(end_angle))
         
-        # Agregar flecha
-        arrow_x = loop_x + radius * np.cos(np.radians(angle + 45))
-        arrow_y = loop_y + radius * np.sin(np.radians(angle + 45))
-        ax.annotate('', xy=(arrow_x, arrow_y), 
-                   xytext=(arrow_x - 0.1, arrow_y - 0.1),
+        # Punto de control para crear el arco
+        control_distance = 0.4
+        control_x = x + control_distance * np.cos(np.radians(angle))
+        control_y = y + control_distance * np.sin(np.radians(angle))
+        
+        # Dibujar arco bezier
+        t = np.linspace(0, 1, 100)
+        arc_x = (1-t)**2 * start_x + 2*(1-t)*t * control_x + t**2 * end_x
+        arc_y = (1-t)**2 * start_y + 2*(1-t)*t * control_y + t**2 * end_y
+        
+        ax.plot(arc_x, arc_y, color='gray', linewidth=1.5)
+        
+        # Flecha al final del arco
+        arrow_t = 0.9
+        arrow_x = (1-arrow_t)**2 * start_x + 2*(1-arrow_t)*arrow_t * control_x + arrow_t**2 * end_x
+        arrow_y = (1-arrow_t)**2 * start_y + 2*(1-arrow_t)*arrow_t * control_y + arrow_t**2 * end_y
+        
+        ax.annotate('', xy=(end_x, end_y), xytext=(arrow_x, arrow_y),
                    arrowprops=dict(arrowstyle='->', color='gray', lw=1.5))
         
-        # Etiqueta del bucle
-        label_x = loop_x + (radius + 0.2) * np.cos(np.radians(angle))
-        label_y = loop_y + (radius + 0.2) * np.sin(np.radians(angle))
-        ax.text(label_x, label_y, label, fontsize=10, ha='center', va='center',
+        # Etiqueta en el punto más alto del arco
+        ax.text(control_x, control_y + 0.0, label, fontsize=10, ha='center', va='center',
                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.9))
     
     @staticmethod
