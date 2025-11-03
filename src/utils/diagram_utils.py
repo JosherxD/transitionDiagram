@@ -41,7 +41,7 @@ class DiagramUtils:
                    arrowprops=dict(arrowstyle='->', color='gray', lw=1.5))
         
         # Etiqueta en el punto más alto del arco
-        ax.text(control_x, control_y + 0.0, label, fontsize=10, ha='center', va='center',
+        ax.text(control_x, control_y - 0.05, label, fontsize=10, ha='center', va='center',
                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.9))
     
     @staticmethod
