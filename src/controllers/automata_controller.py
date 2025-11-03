@@ -106,7 +106,7 @@ class AutomataController:
             self.view.mostrar_error("Primero debe convertir a AFD")
             return
         
-        DiagramViewer.dibujar_diagrama_afd(self.afd, "AFD Convertido")
+        DiagramViewer.dibujar_diagrama_burbuja(self.afd, "AFD Convertido - Diagrama de Burbuja")
     
     def reset(self):
         """Resetea todos los datos del controlador"""

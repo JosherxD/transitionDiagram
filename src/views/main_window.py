@@ -261,7 +261,7 @@ class AutomataView:
     def _format_estado_nombre(self, estado):
         """Formatea el nombre de un estado para mostrar"""
         if isinstance(estado, frozenset):
-            return ','.join(sorted(estado)) if estado else "ERROR"
+            return ''.join(sorted(estado)) if estado else "ERROR"
         elif estado == "ERROR" or estado is None:
             return "ERROR"
         else:

@@ -26,6 +26,7 @@ class AFND:
         transiciones_afd = {}
         estados_finales_afd = set()
         cola = deque([q0_afd])
+        tiene_error = False
         
         while cola:
             estado_actual = cola.popleft()
@@ -45,6 +46,12 @@ class AFND:
                     if nuevo_estado not in estados_afd:
                         estados_afd.add(nuevo_estado)
                         cola.append(nuevo_estado)
+                else:
+                    # No hay transición, va a ERROR
+                    transiciones_afd[(estado_actual, simbolo)] = "ERROR"
+                    tiene_error = True
+        
+        # No agregar ERROR como estado, solo en transiciones
         
         return AFD(estados_afd, self.alfabeto, transiciones_afd, q0_afd, estados_finales_afd)
 
