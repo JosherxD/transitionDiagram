@@ -40,9 +40,9 @@ class DiagramUtils:
         ax.annotate('', xy=(end_x, end_y), xytext=(arrow_x, arrow_y),
                    arrowprops=dict(arrowstyle='->', color='gray', lw=1.5))
         
-        # Etiqueta en el punto más alto del arco
+        # Etiqueta en el punto más alto del arco con color distintivo
         ax.text(control_x, control_y - 0.05, label, fontsize=10, ha='center', va='center',
-               bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.9))
+               bbox=dict(boxstyle='round,pad=0.2', facecolor='lightgreen', alpha=0.9, edgecolor='darkgreen'))
     
     @staticmethod
     def draw_curved_transition(ax, start_pos, end_pos, label, curve_height=0.3):
