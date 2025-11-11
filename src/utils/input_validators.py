@@ -2,9 +2,18 @@
 class InputValidators:
     @staticmethod
     def validate_states(value):
-        """Valida entrada de estados: solo letras y comas"""
+        """Valida entrada de estados: solo letras, comas y la palabra ERROR"""
         if not value:
             return True
+        # Permitir ERROR como palabra completa
+        if 'ERROR' in value.upper():
+            # Verificar que ERROR esté correctamente separado
+            parts = [p.strip() for p in value.upper().split(',')]
+            for part in parts:
+                if part and not (part.isalpha() or part == 'ERROR'):
+                    return False
+            return True
+        # Validación normal para otros casos
         for char in value:
             if not (char.isalpha() or char == ','):
                 return False
@@ -38,16 +47,29 @@ class InputValidators:
     
     @staticmethod
     def validate_initial_state(value):
-        """Valida estado inicial: solo una letra"""
+        """Valida estado inicial: solo una letra o la palabra ERROR"""
         if not value:
             return True
+        # Permitir ERROR como palabra completa
+        if value.upper() == 'ERROR':
+            return True
+        # Validación normal: solo una letra
         return len(value) == 1 and value.isalpha()
     
     @staticmethod
     def validate_final_states(value):
-        """Valida estados finales: solo letras y comas"""
+        """Valida estados finales: solo letras, comas y la palabra ERROR"""
         if not value:
             return True
+        # Permitir ERROR como palabra completa
+        if 'ERROR' in value.upper():
+            # Verificar que ERROR esté correctamente separado
+            parts = [p.strip() for p in value.upper().split(',')]
+            for part in parts:
+                if part and not (part.isalpha() or part == 'ERROR'):
+                    return False
+            return True
+        # Validación normal para otros casos
         for char in value:
             if not (char.isalpha() or char == ','):
                 return False
@@ -55,9 +77,18 @@ class InputValidators:
     
     @staticmethod
     def validate_matrix_cell(value):
-        """Valida celdas de matriz: solo letras y comas para múltiples destinos"""
+        """Valida celdas de matriz: solo letras, comas y la palabra ERROR"""
         if not value:
             return True
+        # Permitir ERROR como palabra completa
+        if 'ERROR' in value.upper():
+            # Verificar que ERROR esté correctamente separado
+            parts = [p.strip() for p in value.upper().split(',')]
+            for part in parts:
+                if part and not (part.isalpha() or part == 'ERROR'):
+                    return False
+            return True
+        # Validación normal para otros casos
         for char in value:
             if not (char.isalpha() or char == ','):
                 return False

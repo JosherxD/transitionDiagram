@@ -79,14 +79,9 @@ class AutomataController:
             self.view.mostrar_error("Primero debe validar el AFND completo")
             return
         
-        # Solicitar secuencia mediante ventana emergente
-        secuencia = self.view.solicitar_secuencia()
-        if not secuencia:
-            return  # Usuario canceló
-        
         try:
             self.afd = self.afnd.convertir_a_afd()
-            self.view.mostrar_resultado(f"✅ Conversión completada. Secuencia: {secuencia} - Estados AFD: {len(self.afd.estados)}", "blue")
+            self.view.mostrar_resultado(f"✅ Conversión completada. Estados AFD: {len(self.afd.estados)}", "blue")
             # Mostrar tabla de conversión
             self.view.mostrar_tabla_conversion_afd(self.afd)
             # Habilitar botón de mostrar AFD

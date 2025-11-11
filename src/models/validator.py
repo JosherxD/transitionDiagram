@@ -7,13 +7,15 @@ class ValidadorAutomata:
         if not estados_str:
             raise ValueError("Debe ingresar los estados")
         
-        if ',' not in estados_str and len(estados_str.strip()) > 1:
+        if ',' not in estados_str and len(estados_str.strip()) > 1 and estados_str.strip().upper() != 'ERROR':
             raise ValueError("Los estados deben estar separados por comas (,)")
         
         estados = [e.strip().upper() for e in estados_str.split(',')]
         for estado in estados:
+            if estado == 'ERROR':
+                continue  # ERROR es válido
             if not estado.isalpha() or len(estado) != 1:
-                raise ValueError(f"Estado '{estado}' debe ser una letra mayúscula")
+                raise ValueError(f"Estado '{estado}' debe ser una letra mayúscula o ERROR")
         return estados
     
     @staticmethod
@@ -50,7 +52,7 @@ class ValidadorAutomata:
         if not finales_str:
             raise ValueError("Debe ingresar los estados de aceptación")
         
-        if ',' not in finales_str and len(finales_str.strip()) > 1:
+        if ',' not in finales_str and len(finales_str.strip()) > 1 and finales_str.strip().upper() != 'ERROR':
             raise ValueError("Los estados de aceptación deben estar separados por comas (,)")
         
         estados_finales = [e.strip().upper() for e in finales_str.split(',')]
